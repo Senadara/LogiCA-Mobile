@@ -18,7 +18,7 @@ class NotificationService {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       '14221', 
-      'Dayatsz', 
+      'logiCa Mobile', 
       importance: Importance.max,
       priority: Priority.high,
     );

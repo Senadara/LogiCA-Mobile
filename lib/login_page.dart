@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logica_mobile/dashboard.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +33,14 @@ class _LoginPageState extends State<LoginPage> {
             _buildInputField(label: 'Password', isPassword: true),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Dashboard(),
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
