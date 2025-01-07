@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:logica_mobile/dashboard.dart';
+
 
 // test
 
@@ -102,6 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                 controller: _passwordController,
                 isPassword: true),
             const SizedBox(height: 32),
+
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
@@ -119,6 +122,28 @@ class _LoginPageState extends State<LoginPage> {
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Dashboard(),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Center(
+                child: Text(
+                  'Log in',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
                   ),
           ],
         ),

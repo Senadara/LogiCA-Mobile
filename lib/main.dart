@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/SupirDashboard': (context) => const SupirDashboard(token: ''),
         '/MekanikDashboard': (context) => const MekanikDashboard(token: ''),
       },
+      home: const LoginPage(),
     );
   }
 }
