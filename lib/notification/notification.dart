@@ -17,17 +17,18 @@ class NotificationService {
   Future<void> showNotification() async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      '14221', 
-      'logiCa Mobile', 
+      '14221',
+      'Dayatsz',
       importance: Importance.max,
       priority: Priority.high,
     );
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
-      0, 
-      'Ini adalah Test Notifikasi', 
-      'Teksnya akan muncul disetiap kamu melakukan action', 
-      platformChannelSpecifics,);
+      0,
+      'Ini adalah Test Notifikasi',
+      'Teksnya akan muncul disetiap kamu melakukan action',
+      platformChannelSpecifics,
+    );
   }
 }
