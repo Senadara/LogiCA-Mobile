@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:logica_mobile/dashboard.dart';
+import 'package:logica_mobile/supir_dashboard.dart';
+import 'package:logica_mobile/mekanik_dashboard.dart';
 import 'package:logica_mobile/login_page.dart';
 
 void main() {
@@ -17,7 +18,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Dashboard(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginPage(),
+        '/SupirDashboard': (context) => const SupirDashboard(token: ''),
+        '/MekanikDashboard': (context) => const MekanikDashboard(token: ''),
+      },
     );
   }
 }
