@@ -60,16 +60,13 @@ class _SupirDashboardState extends State<SupirDashboard> {
 
   void _updateVehicleStatus() {
     if (lastMaintenanceDate != 'Unknown') {
-      // Parse last maintenance date
       DateTime maintenanceDate = DateTime.parse(lastMaintenanceDate);
       DateTime currentDate = DateTime.now();
 
-      // Calculate the difference in months
       int differenceInMonths = (currentDate.year - maintenanceDate.year) * 12 +
           currentDate.month -
           maintenanceDate.month;
 
-      // Update status based on the difference
       setState(() {
         if (differenceInMonths > 6) {
           vehicleStatus = 'Need Maintenance';
@@ -349,27 +346,31 @@ class _SupirDashboardState extends State<SupirDashboard> {
               ),
             ),
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            decoration: BoxDecoration(
-              color: const Color(0xFF3B6BA7),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const [
-                Icon(Icons.home, color: Colors.white, size: 28),
-                Icon(Icons.build, color: Colors.white, size: 28),
-              ],
-            ),
-          ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+  currentIndex: 0,
+  onTap: (index) {
+    if (index == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SupirFormfoto()),
+      );
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      label: 'Home',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.mail),
+      label: 'Maintenance',
+    ),
+  ],
+),
+
     );
+    
   }
 }
