@@ -79,20 +79,20 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: licensePlateController,
-                decoration: const InputDecoration(
-                  labelText: "License Plate",
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "License Plate tidak boleh kosong!";
-                  }
-                  return null;
-                },
-              ),
+              // const SizedBox(height: 10),
+              // TextFormField(
+              //   controller: licensePlateController,
+              //   decoration: const InputDecoration(
+              //     labelText: "License Plate",
+              //     border: OutlineInputBorder(),
+              //   ),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return "License Plate tidak boleh kosong!";
+              //     }
+              //     return null;
+              //   },
+              // ),
               const SizedBox(height: 20),
               const Text(
                 "Foto Kendaraan",

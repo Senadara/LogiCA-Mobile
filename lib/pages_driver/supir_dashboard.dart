@@ -19,6 +19,7 @@ class _SupirDashboardState extends State<SupirDashboard> {
   String licensePlate = 'Unknown';
   String lastMaintenanceDate = 'Unknown';
   String vehicleStatus = "Unknown";
+  String maintenanceStatus = "Unknown";
 
   @override
   void initState() {
@@ -48,6 +49,8 @@ class _SupirDashboardState extends State<SupirDashboard> {
       setState(() {
         licensePlate = userData['license_plate'];
         lastMaintenanceDate = userData['last_maintenance_date'];
+        maintenanceStatus = userData['status'];
+        print( userData['status']);
         _updateVehicleStatus();
       });
     }
@@ -67,11 +70,9 @@ class _SupirDashboardState extends State<SupirDashboard> {
       // Update status based on the difference
       setState(() {
         if (differenceInMonths > 6) {
-          vehicleStatus = 'maintenance';
-        } else if (differenceInMonths > 0 && differenceInMonths <= 6) {
-          vehicleStatus = 'available';
+          vehicleStatus = 'Need Maintenance';
         } else {
-          vehicleStatus = 'unavailable';
+          vehicleStatus = 'In Good Condition';
         }
       });
     }
@@ -207,78 +208,83 @@ class _SupirDashboardState extends State<SupirDashboard> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Jadwal Maintenance',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Maintenance(),
+                  maintenanceStatus != 'available'
+                      ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Jadwal Maintenance',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
-                    child: Card(
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      ),
+                      const SizedBox(height: 8),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Maintenance(),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          elevation: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text(
-                                  'Servis Rutin',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Servis Rutin',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      '15 Januari 2024 - 10.00',
+                                      style: TextStyle(
+                                        color: Colors.grey[600],
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  '15 Januari 2024 - 10.00',
-                                  style: TextStyle(
-                                    color: Colors.grey[600],
-                                    fontSize: 14,
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: maintenanceStatus == 'maintenance'
+                                        ? const Color(0xFFF26868)
+                                        : Colors.orange,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    maintenanceStatus == 'maintenance'
+                                        ? 'Maintenance'
+                                        : 'Unavailable',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
-                            if (vehicleStatus == 'maintenance' ||
-                                vehicleStatus == 'unavailable')
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 6,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: vehicleStatus == 'maintenance'
-                                      ? const Color(0xFFF26868)
-                                      : Colors.orange,
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                child: Text(
-                                  vehicleStatus == 'maintenance'
-                                      ? 'Maintenance'
-                                      : 'Unavailable',
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    ],
+                  )
+                      : SizedBox(),
                 ],
               ),
             ),
