@@ -33,6 +33,16 @@ class _MaintenanceState extends State<Maintenance> {
       });
     }
   }
+  void _navigateBack(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SupirDashboard(
+          notificationService: _notificationService,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,13 +163,13 @@ class _MaintenanceState extends State<Maintenance> {
                     : null,
               ),
             ),
-            Spacer(),
+         const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('Kembali'),
+                  child: const Text('Kembali'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
@@ -167,17 +177,31 @@ class _MaintenanceState extends State<Maintenance> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    _notificationService.showNotification();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SupirDashboard(
-                          notificationService: _notificationService,
-                        ),
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Konfirmasi'),
+                          content: const Text('Apakah Anda yakin ingin menyelesaikan maintenance?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Batal'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); 
+                                _notificationService.showNotification(); 
+                                _navigateBack(context);
+                              },
+                              child: const Text('Ya'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
-                  child: Text('Selesai'),
+                  child: const Text('Selesai'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
@@ -191,3 +215,4 @@ class _MaintenanceState extends State<Maintenance> {
     );
   }
 }
+
