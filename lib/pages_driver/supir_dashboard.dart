@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logica_mobile/pages_driver/formfoto.dart';
 import 'package:logica_mobile/pages_driver/maintenance.dart';
 import 'package:logica_mobile/notification.dart';
+import 'package:http/http.dart' as http;
+
 
 class SupirDashboard extends StatefulWidget {
   final NotificationService notificationService;
@@ -77,6 +79,54 @@ class _SupirDashboardState extends State<SupirDashboard> {
       });
     }
   }
+
+  Future<void> _refreshMaintenanceSchedule() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userDataString = prefs.getString('userData');
+
+      if (userDataString != null) {
+        Map<String, dynamic> userData = jsonDecode(userDataString);
+
+        // Pastikan 'id' ada dan bertipe sesuai
+        if (userData.containsKey('id')) {
+          final userId = userData['id']; // Gunakan apa adanya tanpa .toString()
+
+          final response = await http.get(
+            Uri.parse("http://10.0.2.2:8000/api/maintenance/$userId?status="),
+            headers: {"Content-Type": "application/json"},
+          );
+
+          if (response.statusCode == 200) {
+            final data = jsonDecode(response.body);
+
+            // Validasi tipe data yang diterima
+            if (data is Map<String, dynamic>) {
+              setState(() {
+                maintenanceStatus = data['status'] ?? "Unknown";
+                lastMaintenanceDate = data['last_maintenance_date'] ?? "Unknown";
+              });
+            } else {
+              print("Unexpected response format: $data");
+            }
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Gagal memuat jadwal maintenance")),
+            );
+          }
+        } else {
+          print("User data does not contain 'id': $userData");
+        }
+      }
+    } catch (e) {
+      print("Error fetching maintenance schedule: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Terjadi kesalahan: $e")),
+      );
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +297,7 @@ class _SupirDashboardState extends State<SupirDashboard> {
                                       ),
                                     ),
                                     Text(
-                                      '15 Januari 2024 - 10.00',
+                                      '$lastMaintenanceDate',
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 14,
@@ -281,6 +331,16 @@ class _SupirDashboardState extends State<SupirDashboard> {
                             ),
                           ),
                         ),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        icon: const Icon(Icons.refresh),
+                        label: const Text("Refresh Jadwal Maintenance"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF3B6BA7),
+                          foregroundColor: Colors.white,
+                        ),
+                        onPressed: _refreshMaintenanceSchedule,
                       ),
                     ],
                   )

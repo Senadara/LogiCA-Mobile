@@ -15,8 +15,10 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
   bool _isLoading = false;
-  String userId = "";
-  String vehicleId = "";
+  String userId = "1";
+  String vehicleId = "1";
+  final String baseurl = "http://10.0.2.2:8000/api/maintenance"; // Endpoint API
+  final client = http.Client(); // Inisialisasi HTTP Client
 
   @override
   void initState() {
@@ -33,17 +35,18 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
       Map<String, dynamic> userData = jsonDecode(userDataString);
       setState(() {
         userId = userData['id'];
+        vehicleId = userData['vehicle_id'];
       });
     }
 
     // Load vehicle data
-    String? vehicleDataString = prefs.getString('userVehicle');
-    if (vehicleDataString != null) {
-      Map<String, dynamic> vehicleData = jsonDecode(vehicleDataString);
-      setState(() {
-        vehicleId = vehicleData['id'].toString();
-      });
-    }
+    // String? vehicleDataString = prefs.getString('userVehicle');
+    // if (vehicleDataString != null) {
+    //   Map<String, dynamic> vehicleData = jsonDecode(vehicleDataString);
+    //   setState(() {
+    //     vehicleId = vehicleData['id'].toString();
+    //   });
+    // }
   }
 
   Future<void> _selectDate() async {
@@ -62,6 +65,24 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     }
   }
 
+  Future<dynamic> post({required String title}) async {
+    var url = Uri.parse(baseurl);
+    var body = {"title": title};
+
+    try {
+      var response = await client.post(url, body: body);
+
+      if (response.statusCode == 201) {
+        return response.body;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("Error in POST request: $e");
+      return null;
+    }
+  }
+
   Future<void> submitMaintenance() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -71,7 +92,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     final String note = notesController.text;
     final String date = dateController.text;
 
-    if (userId == null || vehicleId == null) {
+    if (userId.isEmpty || vehicleId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Data user atau kendaraan tidak ditemukan!")),
       );
@@ -83,20 +104,22 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     });
 
     try {
-      final response = await http.post(
-        Uri.parse("http://10.0.2.2:8000/api/maintenance"),
+      var body = {
+        "user_id": userId,
+        "vehicle_id": vehicleId,
+        "tipe_maintenance": type,
+        "note": note,
+        "evidence_photo": "", // Tambahkan jika ada file
+        "date": date,
+      };
+
+      var response = await client.post(
+        Uri.parse(baseurl),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "user_id": userId,
-          "vehicle_id": vehicleId,
-          "tipe_maintenance": type,
-          "note": note,
-          "evidence_photo": "", // Tambahkan jika ada file
-          "date": date,
-        }),
+        body: jsonEncode(body),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Data berhasil disimpan")),
         );
