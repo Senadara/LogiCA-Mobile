@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MekanikDashboard extends StatelessWidget {
-  const MekanikDashboard({Key? key}) : super(key: key);
+  const MekanikDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {

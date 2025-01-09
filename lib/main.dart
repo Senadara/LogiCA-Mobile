@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logica_mobile/supir_dashboard.dart';
 import 'package:logica_mobile/mekanik_dashboard.dart';
 import 'package:logica_mobile/login_page.dart';
-import 'package:logica_mobile/supir_formfoto.dart';
-import 'package:logica_mobile/supir_selesai.dart';
 
 void main() {
   runApp(const MyApp());

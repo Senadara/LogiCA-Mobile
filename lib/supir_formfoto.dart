@@ -4,6 +4,8 @@ import 'package:logica_mobile/supir_form.dart';
 import 'dart:io';
 
 class SupirFormfoto extends StatefulWidget {
+  const SupirFormfoto({super.key});
+
   @override
   _SupirFormfotoState createState() => _SupirFormfotoState();
 }

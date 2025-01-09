@@ -30,33 +30,33 @@ class _MaintenanceState extends State<Maintenance> {
       appBar: AppBar(
         backgroundColor: Colors.blue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.white),
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () {
           },
         ),
         title: Text(
           widget.title,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white),
+            icon: const Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
             },
           ),
           IconButton(
-            icon: Icon(Icons.person, color: Colors.white),
+            icon: const Icon(Icons.person, color: Colors.white),
             onPressed: () {
             },
           ),
         ],
       ),
       body: Container(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
+            const Card(
               elevation: 2,
               child: Padding(
                 padding: EdgeInsets.all(20.0),
@@ -82,8 +82,8 @@ class _MaintenanceState extends State<Maintenance> {
             ),
                 Container(
                       width: double.infinity, 
-                      padding: EdgeInsets.all(12.0),
-                      child: Card(
+                      padding: const EdgeInsets.all(12.0),
+                      child: const Card(
                         elevation: 2,
                         child: Padding(
                           padding: EdgeInsets.all(20.0),
@@ -101,15 +101,15 @@ class _MaintenanceState extends State<Maintenance> {
                         ),
                       ),
                     ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Foto Kendaraan',
               style: TextStyle(
                 fontSize: 16.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             GestureDetector(
               onTap: _pickImage,
               child: Container(
@@ -133,27 +133,27 @@ class _MaintenanceState extends State<Maintenance> {
                     : null,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () {
                   },
-                  child: Text('Kembali'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
                   ),
+                  child: Text('Kembali'),
                 ),
                 ElevatedButton(
                   onPressed: () {
                   },
-                  child: Text('Selesai'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
                   ),
+                  child: Text('Selesai'),
                 ),
               ],
             ),

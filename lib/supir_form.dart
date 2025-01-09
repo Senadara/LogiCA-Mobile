@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MaintenanceRequestScreen extends StatefulWidget {
+  const MaintenanceRequestScreen({super.key});
+
   @override
   _MaintenanceRequestScreenState createState() =>
       _MaintenanceRequestScreenState();
@@ -43,7 +45,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
       notesController.clear();
 
       // Tampilkan pesan sukses
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Permintaan Maintenance Berhasil Dikirim!"),
       ));
     }
@@ -53,7 +55,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'LogiCa',
           style: TextStyle(
             color: Colors.white,
@@ -63,7 +65,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
         ),
         backgroundColor: Colors.blue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -77,7 +79,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(8),
@@ -86,24 +88,24 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Tipe Maintenance",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: typeController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                       ),
                       textInputAction: TextInputAction.next,
@@ -117,9 +119,9 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(8),
@@ -128,24 +130,24 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Tanggal Maintenance",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: dateController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                       ),
                       readOnly: true,
@@ -160,9 +162,9 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Container(
-                padding: EdgeInsets.all(12),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade100,
                   borderRadius: BorderRadius.circular(8),
@@ -171,24 +173,24 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Catatan Tambahan",
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     TextFormField(
                       controller: notesController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                       ),
                       maxLines: 4,
@@ -196,7 +198,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
@@ -205,7 +207,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                       color: Colors.grey.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -215,8 +217,8 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
                     foregroundColor: Colors.white,
                   ),
                   onPressed: _submitForm,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0),
                     child: Text("Submit Request"),
                   ),
                 ),

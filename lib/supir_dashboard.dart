@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SupirDashboard extends StatelessWidget {
-  const SupirDashboard({Key? key}) : super(key: key);
+  const SupirDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
