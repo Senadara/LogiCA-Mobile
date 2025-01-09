@@ -1,77 +1,70 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 
-// test
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _isPasswordVisible = false;
+class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
 
   Future<void> _login() async {
+    final String email = _emailController.text;
+    final String password = _passwordController.text;
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Email dan password tidak boleh kosong!")),
+      );
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
-    const url = 'http://10.0.2.2:8000/api/login';
     try {
       final response = await http.post(
-        Uri.parse(url),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse("http://10.0.2.2:8000/api/login"),
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
-          'email': _emailController.text.trim(),
-          'password': _passwordController.text.trim(),
+          "email": email,
+          "password": password,
         }),
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
-      setState(() {
-        _isLoading = false;
-      });
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        final String token = data['token'];
-        final String role = data['user']['role'];
 
-        // Simpan token jika diperlukan untuk request berikutnya
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
-
-        if (role == 'driver') {
-          Navigator.pushReplacementNamed(context, '/SupirDashboard');
-        } else if (role == 'mechanic') {
-          Navigator.pushReplacementNamed(context, '/MekanikDashboard');
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Role tidak dikenali')),
-          );
-        }
-      } else {
-        final error = jsonDecode(response.body)['error'];
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login gagal: $error')),
+          SnackBar(
+              content: Text(
+                  "Login berhasil, Selamat datang ${data['user']['username']}!")),
+        );
+
+        Navigator.pushReplacementNamed(context, '/SupirDashboard');
+      } else {
+        final error = jsonDecode(response.body);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(error['message'] ?? "Login gagal")),
         );
       }
     } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Terjadi kesalahan: $e")),
+      );
+    } finally {
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Terjadi kesalahan, coba lagi')),
-      );
     }
   }
 
@@ -105,21 +98,21 @@ class _LoginPageState extends State<LoginPage> {
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
-                    onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Log in',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                  ),
+              onPressed: _login,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Center(
+                child: Text(
+                  'Log in',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -149,18 +142,18 @@ class _LoginPageState extends State<LoginPage> {
             hintText: label,
             suffixIcon: isPassword
                 ? IconButton(
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.blue,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                  )
+              icon: Icon(
+                _isPasswordVisible
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                color: Colors.blue,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            )
                 : null,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
