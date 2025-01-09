@@ -23,11 +23,9 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const LoginPage(),
-        '/SupirDashboard': (context) => const SupirDashboard(token: ''),
-        '/MekanikDashboard': (context) => const MekanikDashboard(token: ''),
-
+        '/SupirDashboard': (context) => const SupirDashboard(),
+        '/MekanikDashboard': (context) => const MekanikDashboard(),
       },
-      home: const LoginPage(),
     );
   }
 }
