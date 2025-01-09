@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:logica_mobile/supir_dashboard.dart';
-import 'package:logica_mobile/mekanik_dashboard.dart';
-import 'package:logica_mobile/login_page.dart';
+import 'package:logica_mobile/login.dart';
+//import 'package:mediacamera/desktop.dart';
+import 'package:logica_mobile/pages_driver/form.dart';
+import 'package:logica_mobile/pages_driver/formfoto.dart';
+import 'package:logica_mobile/pages_driver/maintenance.dart';
+//import 'package:logica_mobile/pages_driver/media.dart';
+import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
+import 'package:logica_mobile/notification.dart'; // Import the NotificationService
 
 void main() {
   runApp(const MyApp());
@@ -20,9 +25,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const LoginPage(),
-        '/SupirDashboard': (context) => const SupirDashboard(),
-        '/MekanikDashboard': (context) => const MekanikDashboard(),
+        '/': (context) => Login(),
+        '/SupirDashboard': (context) => SupirDashboard(notificationService: NotificationService()),
+        '/Maintenance': (context) => MaintenanceRequestScreen(),
+        '/MekanikDashboard': (context) => SupirFormfoto(),
+        '/Mekanik': (context) => const Maintenance(),
       },
     );
   }

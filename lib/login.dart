@@ -1,19 +1,20 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class Login extends StatefulWidget {
+  const Login({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<Login> createState() => _LoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _isPasswordVisible = false;
+class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
 
   Future<void> _login() async {
     final String email = _emailController.text;
@@ -97,21 +98,21 @@ class _LoginPageState extends State<LoginPage> {
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
-                    onPressed: _login,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(vertical: 16.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        'Log in',
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ),
-                  ),
+              onPressed: _login,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Center(
+                child: Text(
+                  'Log in',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -141,18 +142,18 @@ class _LoginPageState extends State<LoginPage> {
             hintText: label,
             suffixIcon: isPassword
                 ? IconButton(
-                    icon: Icon(
-                      _isPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.blue,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
-                      });
-                    },
-                  )
+              icon: Icon(
+                _isPasswordVisible
+                    ? Icons.visibility
+                    : Icons.visibility_off,
+                color: Colors.blue,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isPasswordVisible = !_isPasswordVisible;
+                });
+              },
+            )
                 : null,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
