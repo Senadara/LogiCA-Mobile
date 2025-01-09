@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
-import 'package:logica_mobile/notification.dart'; // Import your NotificationService class
+import 'package:logica_mobile/notification.dart'; 
 
 class Maintenance extends StatefulWidget {
   const Maintenance({super.key});
@@ -20,7 +20,7 @@ class _MaintenanceState extends State<Maintenance> {
   @override
   void initState() {
     super.initState();
-    _notificationService.init(); // Initialize the notification service
+    _notificationService.init();
   }
 
   Future<void> _pickImage() async {
@@ -212,6 +212,19 @@ class _MaintenanceState extends State<Maintenance> {
           ],
         ),
       ),
+       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Maintenance',
+          ),
+        ],
+        )
     );
   }
 }

@@ -12,7 +12,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
-  // Fungsi untuk memilih tanggal
+  
   Future<void> _selectDate() async {
     DateTime? selectedDate = await showDatePicker(
       context: context,
@@ -29,20 +29,20 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     }
   }
 
-  // Fungsi untuk submit form
+  
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      // Cetak hasil form di konsol
+     
       print("Tipe Maintenance: ${typeController.text}");
       print("Tanggal Maintenance: ${dateController.text}");
       print("Catatan Tambahan: ${notesController.text}");
 
-      // Kosongkan kontroler setelah submit
+      
       typeController.clear();
       dateController.clear();
       notesController.clear();
 
-      // Tampilkan pesan sukses
+     
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text("Permintaan Maintenance Berhasil Dikirim!"),
       ));
@@ -225,6 +225,19 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Maintenance',
+          ),
+        ],
+        )
     );
   }
 }
