@@ -10,33 +10,33 @@ class SupirFormfoto extends StatefulWidget {
 }
 
 class _SupirFormfotoState extends State<SupirFormfoto> {
-  File? _imageFile; // File untuk menyimpan foto yang diambil
-  final _formKey = GlobalKey<FormState>(); // GlobalKey untuk Form
-  final TextEditingController licensePlateController = TextEditingController(); // Controller untuk TextFormField
+  File? _imageFile; 
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController licensePlateController = TextEditingController(); 
 
-  // Fungsi untuk mengambil foto dari kamera
+  
   Future<void> _pickImageFromCamera() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
       setState(() {
-        _imageFile = File(pickedFile.path); // Simpan foto ke dalam file
+        _imageFile = File(pickedFile.path);
       });
     }
   }
 
-  // Fungsi untuk memilih foto dari galeri
+ 
   Future<void> _pickImageFromGallery() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        _imageFile = File(pickedFile.path); // Simpan foto ke dalam file
+        _imageFile = File(pickedFile.path); 
       });
     }
   }
 
   @override
   void dispose() {
-    licensePlateController.dispose(); // Hapus controller saat tidak lagi digunakan
+    licensePlateController.dispose();
     super.dispose();
   }
 
@@ -79,20 +79,20 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: licensePlateController,
-                decoration: const InputDecoration(
-                  labelText: "License Plate",
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return "License Plate tidak boleh kosong!";
-                  }
-                  return null;
-                },
-              ),
+              // const SizedBox(height: 10),
+              // TextFormField(
+              //   controller: licensePlateController,
+              //   decoration: const InputDecoration(
+              //     labelText: "License Plate",
+              //     border: OutlineInputBorder(),
+              //   ),
+              //   validator: (value) {
+              //     if (value == null || value.isEmpty) {
+              //       return "License Plate tidak boleh kosong!";
+              //     }
+              //     return null;
+              //   },
+              // ),
               const SizedBox(height: 20),
               const Text(
                 "Foto Kendaraan",
@@ -150,11 +150,29 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
           ),
         ),
       ),
+     bottomNavigationBar: BottomNavigationBar(
+  currentIndex: 1,
+  onTap: (index) {
+    if (index == 0) {
+      Navigator.pop(context);
+    }
+  },
+  items: const [
+    BottomNavigationBarItem(
+      icon: Icon(Icons.home),
+      label: 'Home',
+    ),
+    BottomNavigationBarItem(
+      icon: Icon(Icons.mail),
+      label: 'Maintenance',
+    ),
+  ],
+),
+
     );
   }
 
-  // Modal Bottom Sheet untuk memilih kamera atau galeri
-  Widget _buildBottomSheet() {
+    Widget _buildBottomSheet() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -162,16 +180,16 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
           leading: const Icon(Icons.camera, color: Colors.blue),
           title: const Text('Ambil Foto dari Kamera'),
           onTap: () {
-            Navigator.pop(context); // Tutup Bottom Sheet
-            _pickImageFromCamera(); // Ambil foto dari kamera
+            Navigator.pop(context); 
+            _pickImageFromCamera(); 
           },
         ),
         ListTile(
           leading: const Icon(Icons.photo, color: Colors.blue),
           title: const Text('Pilih Foto dari Galeri'),
           onTap: () {
-            Navigator.pop(context); // Tutup Bottom Sheet
-            _pickImageFromGallery(); // Pilih foto dari galeri
+            Navigator.pop(context); 
+            _pickImageFromGallery(); 
           },
         ),
       ],

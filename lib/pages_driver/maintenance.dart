@@ -3,7 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
-import 'package:logica_mobile/notification.dart'; // Import your NotificationService class
+import 'package:logica_mobile/notification.dart'; 
 
 class Maintenance extends StatefulWidget {
   const Maintenance({super.key});
@@ -20,7 +20,7 @@ class _MaintenanceState extends State<Maintenance> {
   @override
   void initState() {
     super.initState();
-    _notificationService.init(); // Initialize the notification service
+    _notificationService.init();
   }
 
   Future<void> _pickImage() async {
@@ -32,6 +32,16 @@ class _MaintenanceState extends State<Maintenance> {
         _selectedImage = File(pickedFile.path);
       });
     }
+  }
+  void _navigateBack(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SupirDashboard(
+          notificationService: _notificationService,
+        ),
+      ),
+    );
   }
 
   @override
@@ -153,13 +163,13 @@ class _MaintenanceState extends State<Maintenance> {
                     : null,
               ),
             ),
-            Spacer(),
+         const Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
                   onPressed: () {},
-                  child: Text('Kembali'),
+                  child: const Text('Kembali'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
@@ -167,17 +177,31 @@ class _MaintenanceState extends State<Maintenance> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    _notificationService.showNotification();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SupirDashboard(
-                          notificationService: _notificationService,
-                        ),
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('Konfirmasi'),
+                          content: const Text('Apakah Anda yakin ingin menyelesaikan maintenance?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Batal'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context); 
+                                _notificationService.showNotification(); 
+                                _navigateBack(context);
+                              },
+                              child: const Text('Ya'),
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
-                  child: Text('Selesai'),
+                  child: const Text('Selesai'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
                     foregroundColor: Colors.white,
@@ -188,6 +212,20 @@ class _MaintenanceState extends State<Maintenance> {
           ],
         ),
       ),
+       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.mail),
+            label: 'Maintenance',
+          ),
+        ],
+        )
     );
   }
 }
+

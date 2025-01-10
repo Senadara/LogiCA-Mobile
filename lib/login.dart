@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -44,13 +45,31 @@ class _LoginState extends State<Login> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('userData', jsonEncode(data['user']));
+        await prefs.setString('userVehicle', jsonEncode(data['vehicle']));
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(
-                  "Login berhasil, Selamat datang ${data['user']['username']}!")),
+            content: Text(
+              "Login berhasil, Selamat datang ${data['user']['name']}!",
+            ),
+          ),
         );
 
-        Navigator.pushReplacementNamed(context, '/SupirDashboard');
+        // Akses dashboard berdasarkan role
+        if (data['user']['role'] == 'mechanic') {
+          Navigator.pushReplacementNamed(context, '/MekanikDashboard');
+        } else if (data['user']['role'] == 'driver') {
+          Navigator.pushReplacementNamed(context, '/SupirDashboard');
+        } else {
+          // Tambahkan navigasi default atau error handling jika role tidak dikenal
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("Role tidak dikenali. Silakan hubungi administrator."),
+            ),
+          );
+        }
       } else {
         final error = jsonDecode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
