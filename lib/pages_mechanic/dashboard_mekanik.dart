@@ -94,9 +94,13 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Selamat Datang,', style: TextStyle(fontSize: 16, color: Colors.grey)),
-            Text(userName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Text(workshopName, style: TextStyle(fontSize: 16, color: Colors.grey)),
+            const Text('Selamat Datang,',
+                style: TextStyle(fontSize: 16, color: Colors.grey)),
+            Text(userName,
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            Text(workshopName,
+                style: const TextStyle(fontSize: 16, color: Colors.grey)),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -115,7 +119,8 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
               ),
               onPressed: _refreshMaintenanceSchedule,
             ),
-            const Text('Tugas', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const Text('Tugas',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             ...tasks.map((task) {
               return _buildTaskCard(
                 task['tipe_maintenance'] ?? 'Tidak diketahui',
@@ -137,7 +142,8 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Servis'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.description), label: 'Laporan'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.description), label: 'Laporan'),
         ],
         selectedItemColor: Colors.blue,
         onTap: (index) {},
@@ -151,7 +157,8 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
       child: Column(
         children: [
           Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Icon(icon, size: 40),
@@ -164,7 +171,8 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
     );
   }
 
-  Widget _buildTaskCard(String title, String name, String time, String status, Color statusColor) {
+  Widget _buildTaskCard(String title, String name, String time, String status,
+      Color statusColor) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
@@ -178,7 +186,8 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
           ),
           child: Text(
             status,
-            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold),
           ),
         ),
       ),
