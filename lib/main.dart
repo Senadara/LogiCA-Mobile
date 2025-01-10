@@ -9,6 +9,7 @@ import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
 import 'package:logica_mobile/notification.dart';
 import 'package:logica_mobile/pages_mechanic/dashboard_mekanik.dart';
 import 'package:logica_mobile/pages_mechanic/ongoing_service.dart'; 
+import 'package:logica_mobile/pages_mechanic/ready_service.dart'; 
 
 
 void main() {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/MekanikDashboard': (context) => MekanikDashboardPage(),
         '/Mekanik': (context) => const Maintenance(),
         '/ong' : (context) => const OngoingService(),
-        
+        '/red' : (context) => const ReadyService(),
       },
     );
   }

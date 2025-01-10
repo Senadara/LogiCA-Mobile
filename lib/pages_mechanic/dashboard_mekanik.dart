@@ -130,6 +130,11 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
               }, 
               child: Text('ongoing'),
             ),
+            TextButton(onPressed: (){
+                Navigator.pushNamed(context, '/red');
+              }, 
+              child: Text('ready'),
+              ),
           ],
         ),
       ),
