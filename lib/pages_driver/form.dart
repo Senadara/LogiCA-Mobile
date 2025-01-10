@@ -15,8 +15,8 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
   final TextEditingController dateController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
   bool _isLoading = false;
-  String userId = "1";
-  String vehicleId = "1";
+  String userId = "";
+  String vehicleId = "";
   final String baseurl = "http://10.0.2.2:8000/api/maintenance"; // Endpoint API
   final client = http.Client(); // Inisialisasi HTTP Client
 
@@ -34,19 +34,22 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     if (userDataString != null) {
       Map<String, dynamic> userData = jsonDecode(userDataString);
       setState(() {
-        userId = userData['id'];
-        vehicleId = userData['vehicle_id'];
+        userId = userData['id'].toString(); // Pastikan id adalah string
       });
+    } else {
+      print("userData tidak ditemukan");
     }
 
     // Load vehicle data
-    // String? vehicleDataString = prefs.getString('userVehicle');
-    // if (vehicleDataString != null) {
-    //   Map<String, dynamic> vehicleData = jsonDecode(vehicleDataString);
-    //   setState(() {
-    //     vehicleId = vehicleData['id'].toString();
-    //   });
-    // }
+    String? vehicleDataString = prefs.getString('userVehicle');
+    if (vehicleDataString != null) {
+      Map<String, dynamic> vehicleData = jsonDecode(vehicleDataString);
+      setState(() {
+        vehicleId = vehicleData['id'].toString(); // Konversi id ke string
+      });
+    } else {
+      print("userVehicle tidak ditemukan");
+    }
   }
 
   Future<void> _selectDate() async {
@@ -88,16 +91,24 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
       return;
     }
 
-    final String type = typeController.text;
-    final String note = notesController.text;
-    final String date = dateController.text;
+     String type = typeController.text;
+     String note = notesController.text;
+     String date = dateController.text;
 
-    if (userId.isEmpty || vehicleId.isEmpty) {
+
+    if (type.isEmpty || note.isEmpty || date.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Data user atau kendaraan tidak ditemukan!")),
+        const SnackBar(content: Text("Semua field harus diisi!")),
       );
       return;
     }
+
+    // if (userId.isEmpty || vehicleId.isEmpty) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text("Data user atau kendaraan tidak ditemukan!")),
+    //   );
+    //   return;
+    // }
 
     setState(() {
       _isLoading = true;

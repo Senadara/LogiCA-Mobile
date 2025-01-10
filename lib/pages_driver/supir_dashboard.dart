@@ -22,6 +22,8 @@ class _SupirDashboardState extends State<SupirDashboard> {
   String lastMaintenanceDate = 'Unknown';
   String vehicleStatus = "Unknown";
   String maintenanceStatus = "Unknown";
+  String maintenanceDate = "Unknown";
+  String maintenanceTipe = "Unknown";
 
   @override
   void initState() {
@@ -52,7 +54,6 @@ class _SupirDashboardState extends State<SupirDashboard> {
         licensePlate = userData['license_plate'];
         lastMaintenanceDate = userData['last_maintenance_date'];
         maintenanceStatus = userData['status'];
-        print( userData['status']);
         _updateVehicleStatus();
       });
     }
@@ -85,9 +86,8 @@ class _SupirDashboardState extends State<SupirDashboard> {
       if (userDataString != null) {
         Map<String, dynamic> userData = jsonDecode(userDataString);
 
-        // Pastikan 'id' ada dan bertipe sesuai
         if (userData.containsKey('id')) {
-          final userId = userData['id']; // Gunakan apa adanya tanpa .toString()
+          final userId = userData['id'];
 
           final response = await http.get(
             Uri.parse("http://10.0.2.2:8000/api/maintenance/$userId?status="),
@@ -97,14 +97,23 @@ class _SupirDashboardState extends State<SupirDashboard> {
           if (response.statusCode == 200) {
             final data = jsonDecode(response.body);
 
-            // Validasi tipe data yang diterima
-            if (data is Map<String, dynamic>) {
+            if (data is List && data.isNotEmpty) {
+              // Ambil data terakhir berdasarkan waktu 'created_at'
+              data.sort((a, b) => b['created_at'].compareTo(a['created_at']));
+              final latestData = data.first;
+
               setState(() {
-                maintenanceStatus = data['status'] ?? "Unknown";
-                lastMaintenanceDate = data['last_maintenance_date'] ?? "Unknown";
+                maintenanceStatus = latestData['status'] ?? 'Unknown';
+                maintenanceDate = latestData['date'] ?? 'Unknown';
+                maintenanceTipe = latestData['tipe_maintenance'] ?? 'Unknown';
               });
             } else {
-              print("Unexpected response format: $data");
+              setState(() {
+                maintenanceStatus = 'No Data';
+                maintenanceDate = 'Unknown';
+                maintenanceTipe = 'Unknown';
+              });
+              print("No maintenance data available.");
             }
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -255,7 +264,17 @@ class _SupirDashboardState extends State<SupirDashboard> {
                       ),
                     ),
                   ),
-                  maintenanceStatus != 'available'
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.refresh),
+                    label: const Text("Refresh"),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF3B6BA7),
+                      foregroundColor: Colors.white,
+                    ),
+                    onPressed: _refreshMaintenanceSchedule,
+                  ),
+                  maintenanceStatus != 'Completed'
                       ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -287,14 +306,14 @@ class _SupirDashboardState extends State<SupirDashboard> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      'Servis Rutin',
+                                    Text(
+                                      maintenanceTipe,
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     Text(
-                                      '$lastMaintenanceDate',
+                                      maintenanceDate,
                                       style: TextStyle(
                                         color: Colors.grey[600],
                                         fontSize: 14,
@@ -308,14 +327,18 @@ class _SupirDashboardState extends State<SupirDashboard> {
                                     vertical: 6,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: maintenanceStatus == 'maintenance'
-                                        ? const Color(0xFFF26868)
-                                        : Colors.orange,
+                                    color: maintenanceStatus == 'pending'
+                                        ? Colors.orange
+                                        : maintenanceStatus == 'On Going'
+                                        ? Colors.blue
+                                        : Colors.grey,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    maintenanceStatus == 'maintenance'
-                                        ? 'Maintenance'
+                                    maintenanceStatus == 'pending'
+                                        ? 'Pending'
+                                        : maintenanceStatus == 'On Going'
+                                        ? 'On Going'
                                         : 'Unavailable',
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -328,16 +351,6 @@ class _SupirDashboardState extends State<SupirDashboard> {
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton.icon(
-                        icon: const Icon(Icons.refresh),
-                        label: const Text("Refresh Jadwal Maintenance"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF3B6BA7),
-                          foregroundColor: Colors.white,
-                        ),
-                        onPressed: _refreshMaintenanceSchedule,
                       ),
                     ],
                   )
@@ -371,6 +384,6 @@ class _SupirDashboardState extends State<SupirDashboard> {
 ),
 
     );
-    
+
   }
 }
