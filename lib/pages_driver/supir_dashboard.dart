@@ -30,6 +30,7 @@ class _SupirDashboardState extends State<SupirDashboard> {
     super.initState();
     _loadUserName();
     _loadUserVehicle();
+    _refreshMaintenanceSchedule();
   }
 
   Future<void> _loadUserName() async {
@@ -132,6 +133,34 @@ class _SupirDashboardState extends State<SupirDashboard> {
     }
   }
 
+  Future<void> _logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // Menghapus semua data di SharedPreferences
+    Navigator.pushReplacementNamed(context, '/'); // Arahkan ke halaman login
+  }
+
+  Future<bool> _showLogoutConfirmation() async {
+    return await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Konfirmasi Logout"),
+          content: const Text("Apakah Anda yakin ingin logout?"),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text("Batal"),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text("Logout"),
+            ),
+          ],
+        );
+      },
+    ) ??
+        false;
+  }
 
 
   @override
@@ -155,12 +184,28 @@ class _SupirDashboardState extends State<SupirDashboard> {
                     ),
                   ),
                   Row(
-                    children: const [
-                      Icon(Icons.notifications_outlined, color: Colors.white),
-                      SizedBox(width: 8),
-                      CircleAvatar(
-                        backgroundColor: Colors.white54,
-                        child: Icon(Icons.person, color: Colors.white),
+                    children: [
+                      const Icon(Icons.notifications_outlined, color: Colors.white),
+                      const SizedBox(width: 8),
+                      PopupMenuButton<String>(
+                        onSelected: (value) async {
+                          if (value == 'logout') {
+                            bool confirmLogout = await _showLogoutConfirmation();
+                            if (confirmLogout) {
+                              _logout();
+                            }
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => [
+                          const PopupMenuItem<String>(
+                            value: 'logout',
+                            child: Text('Logout'),
+                          ),
+                        ],
+                        child: const CircleAvatar(
+                          backgroundColor: Colors.white54,
+                          child: Icon(Icons.person, color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
