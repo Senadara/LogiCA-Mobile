@@ -168,7 +168,9 @@ class _MaintenanceState extends State<Maintenance> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/SupirDashboard');
+                    },
                     child: const Text('Kembali'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromRGBO(43, 87, 154, 1),
