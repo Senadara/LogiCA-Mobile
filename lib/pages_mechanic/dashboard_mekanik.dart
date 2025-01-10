@@ -193,7 +193,7 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
   Color _getStatusColor(String status) {
     switch (status.toLowerCase()) {
       case 'on going':
-        return const Color.fromARGB(255, 2, 136, 245);
+        return Colors.blue;
       case 'pending':
         return Colors.green;
       case 'completed':
