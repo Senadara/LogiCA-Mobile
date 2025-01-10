@@ -26,11 +26,12 @@ class _SupirDashboardState extends State<SupirDashboard> {
   @override
   void initState() {
     super.initState();
-    _loadUserName();
-    _loadUserVehicle();
+   /*  _loadUserName();
+    _loadUserVehicle(); */
+     _loadUserData();
   }
 
-  Future<void> _loadUserName() async {
+  /* Future<void> _loadUserName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userDataString = prefs.getString('userData');
 
@@ -57,7 +58,41 @@ class _SupirDashboardState extends State<SupirDashboard> {
       });
     }
   }
+ */
+Future<void> _loadUserData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      
+      // Load user data
+      String? userDataString = prefs.getString('userData');
+      if (userDataString != null) {
+        Map<String, dynamic> userData = jsonDecode(userDataString);
+        setState(() {
+          userName = userData['name'] ?? 'Supir';
+        });
+      }
 
+      // Load vehicle data
+      String? vehicleDataString = prefs.getString('userVehicle');
+      if (vehicleDataString != null) {
+        Map<String, dynamic> vehicleData = jsonDecode(vehicleDataString);
+        setState(() {
+          licensePlate = vehicleData['license_plate'] ?? 'Unknown';
+          lastMaintenanceDate = vehicleData['last_maintenance_date'] ?? 'Unknown';
+          maintenanceStatus = vehicleData['status'] ?? 'Unknown';
+          _updateVehicleStatus();
+        });
+      }
+    } catch (e) {
+      print('Error loading data: $e');
+      // Handle error gracefully - maybe show a snackbar
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error loading user data')),
+        );
+      }
+    }
+  }
   void _updateVehicleStatus() {
     if (lastMaintenanceDate != 'Unknown') {
       DateTime maintenanceDate = DateTime.parse(lastMaintenanceDate);

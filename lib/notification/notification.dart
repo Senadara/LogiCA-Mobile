@@ -31,4 +31,5 @@ class NotificationService {
       platformChannelSpecifics,
     );
   }
+  
 }

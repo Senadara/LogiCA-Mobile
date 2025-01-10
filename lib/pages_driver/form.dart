@@ -34,7 +34,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     if (userDataString != null) {
       Map<String, dynamic> userData = jsonDecode(userDataString);
       setState(() {
-        userId = userData['id'];
+        userId = userData['id'].toString();
         vehicleId = userData['vehicle_id'];
       });
     }
