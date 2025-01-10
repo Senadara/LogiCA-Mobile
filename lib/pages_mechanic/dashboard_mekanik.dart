@@ -125,6 +125,11 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
                 _getStatusColor(task['status'] ?? ''),
               );
             }).toList(),
+            TextButton(onPressed: (){
+                Navigator.pushNamed(context, '/ong');
+              }, 
+              child: Text('ongoing'),
+            ),
           ],
         ),
       ),
