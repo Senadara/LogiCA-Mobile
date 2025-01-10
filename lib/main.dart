@@ -7,7 +7,10 @@ import 'package:logica_mobile/pages_driver/maintenance.dart';
 //import 'package:logica_mobile/pages_driver/media.dart';
 import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
 import 'package:logica_mobile/notification.dart';
-import 'package:logica_mobile/pages_mechanic/dashboard_mekanik.dart'; // Import the NotificationService
+import 'package:logica_mobile/pages_mechanic/dashboard_mekanik.dart';
+import 'package:logica_mobile/pages_mechanic/ongoing_service.dart'; 
+import 'package:logica_mobile/pages_mechanic/ready_service.dart'; 
+
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +34,8 @@ class MyApp extends StatelessWidget {
         '/Maintenance': (context) => MaintenanceRequestScreen(),
         '/MekanikDashboard': (context) => MekanikDashboardPage(),
         '/Mekanik': (context) => const Maintenance(),
+        '/ong' : (context) => const OngoingService(),
+        '/red' : (context) => const ReadyService(),
       },
     );
   }
