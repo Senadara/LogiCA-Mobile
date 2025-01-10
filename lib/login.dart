@@ -66,7 +66,8 @@ class _LoginState extends State<Login> {
           // Tambahkan navigasi default atau error handling jika role tidak dikenal
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text("Role tidak dikenali. Silakan hubungi administrator."),
+              content:
+                  Text("Role tidak dikenali. Silakan hubungi administrator."),
             ),
           );
         }
@@ -117,21 +118,21 @@ class _LoginState extends State<Login> {
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
-              onPressed: _login,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Center(
-                child: Text(
-                  'Log in',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-            ),
+                    onPressed: _login,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Log in',
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    ),
+                  ),
           ],
         ),
       ),
@@ -161,18 +162,18 @@ class _LoginState extends State<Login> {
             hintText: label,
             suffixIcon: isPassword
                 ? IconButton(
-              icon: Icon(
-                _isPasswordVisible
-                    ? Icons.visibility
-                    : Icons.visibility_off,
-                color: Colors.blue,
-              ),
-              onPressed: () {
-                setState(() {
-                  _isPasswordVisible = !_isPasswordVisible;
-                });
-              },
-            )
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.blue,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  )
                 : null,
             enabledBorder: const UnderlineInputBorder(
               borderSide: BorderSide(color: Color.fromARGB(255, 0, 0, 0)),
