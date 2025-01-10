@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+
 import 'package:logica_mobile/pages_driver/form.dart';
 
 class SupirFormfoto extends StatefulWidget {
@@ -12,8 +13,8 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
   File? _imageFile; 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController licensePlateController = TextEditingController(); 
- 
-  //pick image camera
+
+  
   Future<void> _pickImageFromCamera() async {
     final pickedFile = await ImagePicker().pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
