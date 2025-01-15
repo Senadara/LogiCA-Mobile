@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class MechanicSelectionScreen extends StatefulWidget {
+  const MechanicSelectionScreen({super.key});
+
   @override
   _MechanicSelectionScreenState createState() =>
       _MechanicSelectionScreenState();
@@ -65,9 +65,9 @@ class _MechanicSelectionScreenState extends State<MechanicSelectionScreen> {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     'Informasi Kendaraan',
                     style: TextStyle(

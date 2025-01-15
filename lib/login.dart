@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
         } else {
           // Tambahkan navigasi default atau error handling jika role tidak dikenal
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content:
                   Text("Role tidak dikenali. Silakan hubungi administrator."),
             ),

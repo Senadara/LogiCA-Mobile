@@ -14,7 +14,7 @@ class MekanikDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const MekanikDashboardPage(),
     );
@@ -128,11 +128,11 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             color: const Color(0xFF3B6BA7),
-            child: SafeArea(
+            child: const SafeArea(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'LogiCa Mekanik',
                     style: TextStyle(
                       color: Colors.white,
@@ -141,7 +141,7 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
                     ),
                   ),
                   Row(
-                    children: const [
+                    children: [
                       Icon(Icons.notifications_outlined, color: Colors.white),
                       SizedBox(width: 8),
                       CircleAvatar(
@@ -175,14 +175,15 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => OngoingService()));
+                                          builder: (context) =>
+                                              const OngoingService()));
                                 },
-                                child: Card(
+                                child: const Card(
                                   elevation: 2,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: EdgeInsets.all(16),
                                     child: Column(
-                                      children: const [
+                                      children: [
                                         Icon(Icons.build, size: 32),
                                         SizedBox(height: 8),
                                         Text(
@@ -206,16 +207,16 @@ class _MekanikDashboardPageState extends State<MekanikDashboardPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          MechanicSelectionScreen(),
+                                          const MechanicSelectionScreen(),
                                     ),
                                   );
                                 },
-                                child: Card(
+                                child: const Card(
                                   elevation: 2,
                                   child: Padding(
-                                    padding: const EdgeInsets.all(16),
+                                    padding: EdgeInsets.all(16),
                                     child: Column(
-                                      children: const [
+                                      children: [
                                         Icon(Icons.insert_drive_file, size: 32),
                                         SizedBox(height: 8),
                                         Text(
