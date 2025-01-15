@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:logica_mobile/notification.dart';
+import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MaintenanceRequestScreen extends StatefulWidget {
@@ -63,7 +65,7 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
     if (selectedDate != null) {
       setState(() {
         dateController.text =
-        "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
+            "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}";
       });
     }
   }
@@ -91,10 +93,9 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
       return;
     }
 
-     String type = typeController.text;
-     String note = notesController.text;
-     String date = dateController.text;
-
+    String type = typeController.text;
+    String note = notesController.text;
+    String date = dateController.text;
 
     if (type.isEmpty || note.isEmpty || date.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -102,13 +103,6 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
       );
       return;
     }
-
-    // if (userId.isEmpty || vehicleId.isEmpty) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(content: Text("Data user atau kendaraan tidak ditemukan!")),
-    //   );
-    //   return;
-    // }
 
     setState(() {
       _isLoading = true;
@@ -134,7 +128,21 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Data berhasil disimpan")),
         );
-        Navigator.pop(context);
+
+        // Panggil notifikasi
+        NotificationService notificationService = NotificationService();
+        await notificationService.showNotification();
+
+        // Navigasi ke dashboard
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SupirDashboard(
+              notificationService: notificationService,
+            ),
+          ),
+          (Route<dynamic> route) => false,
+        );
       } else {
         final error = jsonDecode(response.body);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -212,14 +220,14 @@ class _MaintenanceRequestScreenState extends State<MaintenanceRequestScreen> {
               _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF3B6BA7),
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                ),
-                onPressed: submitMaintenance,
-                child: const Text("Submit Request"),
-              ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3B6BA7),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                      ),
+                      onPressed: submitMaintenance,
+                      child: const Text("Submit Request"),
+                    ),
             ],
           ),
         ),
