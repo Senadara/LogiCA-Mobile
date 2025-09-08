@@ -6,6 +6,8 @@ import 'package:logica_mobile/pages_driver/supir_dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MaintenanceRequestScreen extends StatefulWidget {
+  const MaintenanceRequestScreen({super.key});
+
   @override
   _MaintenanceRequestScreenState createState() =>
       _MaintenanceRequestScreenState();

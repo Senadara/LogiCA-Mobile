@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:logica_mobile/pages_driver/form.dart';
 
 class SupirFormfoto extends StatefulWidget {
+  const SupirFormfoto({super.key});
+
   @override
   _SupirFormfotoState createState() => _SupirFormfotoState();
 }
@@ -137,7 +139,7 @@ class _SupirFormfotoState extends State<SupirFormfoto> {
                     } else {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MaintenanceRequestScreen()),
+                        MaterialPageRoute(builder: (context) => const MaintenanceRequestScreen()),
                       );
                     }
                   }

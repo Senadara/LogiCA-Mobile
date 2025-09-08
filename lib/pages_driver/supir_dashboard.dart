@@ -9,8 +9,7 @@ import 'package:http/http.dart' as http;
 
 class SupirDashboard extends StatefulWidget {
   final NotificationService notificationService;
-  const SupirDashboard({Key? key, required this.notificationService})
-      : super(key: key);
+  const SupirDashboard({super.key, required this.notificationService});
 
   @override
   _SupirDashboardState createState() => _SupirDashboardState();
@@ -320,16 +319,16 @@ Future<void> _loadUserData() async {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SupirFormfoto(),
+                          builder: (context) => const SupirFormfoto(),
                         ),
                       );
                     },
-                    child: Card(
+                    child: const Card(
                       elevation: 2,
                       child: Padding(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16),
                         child: Column(
-                          children: const [
+                          children: [
                             Icon(Icons.build, size: 32),
                             SizedBox(height: 8),
                             Text(
@@ -388,7 +387,7 @@ Future<void> _loadUserData() async {
                                   children: [
                                     Text(
                                       maintenanceTipe,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -434,7 +433,7 @@ Future<void> _loadUserData() async {
                       ),
                     ],
                   )
-                      : SizedBox(),
+                      : const SizedBox(),
                 ],
               ),
             ),
@@ -447,7 +446,7 @@ Future<void> _loadUserData() async {
     if (index == 1) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SupirFormfoto()),
+        MaterialPageRoute(builder: (context) => const SupirFormfoto()),
       );
     }
   },
